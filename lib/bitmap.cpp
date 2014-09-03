@@ -1,7 +1,11 @@
 #include "bitmap.h"
-
+extern "C" {
+	#include "qdbmp.h"
+}
 using namespace std;
 
+#define	RECTANGLE_WIDTH		32
+#define	RECTANGLE_HEIGHT	32
 
 // Default Constructor 
 BitMap::BitMap() {
@@ -40,6 +44,42 @@ void BitMap::display(){
 			cout << "[" << BitMap_Content[i][j] << "]";
 		cout << endl;
 	}
+}
+
+void BitMap::outputBMP(int color, string output_name){
+	BMP*	output;
+	UINT 	x, y;
+	UCHAR 	r, g, b;
+
+	output = BMP_Create( BitMap_W * RECTANGLE_WIDTH, BitMap_H * RECTANGLE_HEIGHT, 8 );
+
+	switch(color){
+		case 0:	// 0: White - 1: Black
+			BMP_SetPaletteColor( output, 0, 255, 255, 255 );
+			BMP_SetPaletteColor( output, 1, 0, 0, 0);
+			break;
+		case 1:	// 0: Blue - 1: Red
+			BMP_SetPaletteColor( output, 0, 0, 0, 255 );
+			BMP_SetPaletteColor( output, 1, 255, 0, 0);	
+			break;
+		default:
+			BMP_SetPaletteColor( output, 0, 255, 255, 255 );
+			BMP_SetPaletteColor( output, 1, 0, 0, 0);
+			break;
+	}
+
+	for(int i=0;i<BitMap_H;i++){
+		for(int j=0;j<BitMap_W;j++)
+			for(x= j * RECTANGLE_WIDTH; x < j * RECTANGLE_WIDTH + RECTANGLE_WIDTH; ++x)
+				for(y= i * RECTANGLE_HEIGHT; y < i * RECTANGLE_HEIGHT + RECTANGLE_HEIGHT; ++y)
+					BMP_SetPixelIndex( output, x, y, BitMap_Content[i][j] );
+	}
+
+	/* Save output image */
+	BMP_WriteFile( output, output_name.c_str() );
+
+	/* Free output image memory */
+	BMP_Free( output );
 }
 
 // Counting the number of the same as specified area

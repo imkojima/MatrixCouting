@@ -1,7 +1,7 @@
 all: cmatrix
 CC = clang
 CC+ = clang++
-CFLAGS = -g -Wall
+CFLAGS = -g
 
 qdbmp.o: lib/qdbmp.c lib/qdbmp.h
 	$(CC) -c lib/qdbmp.c
