@@ -96,15 +96,3 @@ void BitMap::doCount(int size_w, int size_h, int base_x, int base_y){
 void BitMap::setPoint(int x, int y, int value){
 	BitMap_Content[y][x] = value;
 }
-
-int main (){
-
-	BitMap my(10,10);
-	my.display();
-	for(int m=1;m<10;++m)
-		for(int n=1;n<10;++n)
-			for(int i=0;i<10;++i)
-				for(int j=0;j<10;++j)
-					my.doCount(m,n,j,i);
-	return 0;
-}
