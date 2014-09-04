@@ -16,7 +16,7 @@ public:
 	BitMap(int X, int Y, int** content);
 
 	void display();
-	void outputBMP(int color, string output_name);
+	void outputBMP(int color0, int color1, string output_name);
 	void doCount(int size_w, int size_h, int base_x, int base_y);
 	void setPoint(int x, int y, int value);
 

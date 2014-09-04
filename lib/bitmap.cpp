@@ -29,42 +29,80 @@ BitMap::BitMap(int X, int Y){
 
 // Constructor (with map size X*Y and the values of content)
 BitMap::BitMap(int X, int Y, int** content){
+	BitMap_W = X;
+	BitMap_H = Y;	
 	BitMap_Content = new int*[Y];
-	for(int i=0;i<Y;++i)
+	for(int i=0;i<Y;++i){
 		BitMap_Content[i] = new int[X];
+		for (int j=0;j<X;++j)
+			BitMap_Content[i][j] = content[i][j];
+	}
 }
 
 // Display Map (visualized array elements)
 void BitMap::display(){
 	cout << "Map Size: " << BitMap_W << "x" << BitMap_H << "(WxH)" << endl;
 
-	for(int i=0;i<BitMap_H;i++){
+	for(int i=0;i<BitMap_H;++i){
 		cout << "\t";
-		for(int j=0;j<BitMap_W;j++)
+		for(int j=0;j<BitMap_W;++j)
 			cout << "[" << BitMap_Content[i][j] << "]";
 		cout << endl;
 	}
 }
 
-void BitMap::outputBMP(int color, string output_name){
+void BitMap::outputBMP(int color0, int color1, string output_name){
 	BMP*	output;
 	UINT 	x, y;
 	UCHAR 	r, g, b;
 
 	output = BMP_Create( BitMap_W * RECTANGLE_WIDTH, BitMap_H * RECTANGLE_HEIGHT, 8 );
 
-	switch(color){
-		case 0:	// 0: White - 1: Black
+	switch(color0){
+		case 0:	// White
 			BMP_SetPaletteColor( output, 0, 255, 255, 255 );
-			BMP_SetPaletteColor( output, 1, 0, 0, 0);
 			break;
-		case 1:	// 0: Blue - 1: Red
+		case 1:	// Black
+			BMP_SetPaletteColor( output, 0, 0, 0, 0);
+			break;
+		case 2: // Blue
 			BMP_SetPaletteColor( output, 0, 0, 0, 255 );
-			BMP_SetPaletteColor( output, 1, 255, 0, 0);	
+			break;
+		case 3: // Red
+			BMP_SetPaletteColor( output, 0, 255, 0, 0);	
+			break;
+		case 4: // Green
+			BMP_SetPaletteColor( output, 0, 0, 255, 0);	
+			break;
+		case 5: // Yellow
+			BMP_SetPaletteColor( output, 0, 0, 255, 255);	
 			break;
 		default:
 			BMP_SetPaletteColor( output, 0, 255, 255, 255 );
+			break;
+	}
+
+	switch(color1){
+		case 0:	// White
+			BMP_SetPaletteColor( output, 1, 255, 255, 255 );
+			break;
+		case 1:	// Black
 			BMP_SetPaletteColor( output, 1, 0, 0, 0);
+			break;
+		case 2: // Blue
+			BMP_SetPaletteColor( output, 1, 0, 0, 255 );
+			break;
+		case 3: // Red
+			BMP_SetPaletteColor( output, 1, 255, 0, 0);	
+			break;
+		case 4: // Green
+			BMP_SetPaletteColor( output, 1, 0, 255, 0);	
+			break;
+		case 5: // Yellow
+			BMP_SetPaletteColor( output, 1, 0, 255, 255);	
+			break;
+		default:
+			BMP_SetPaletteColor( output, 1, 0, 0, 0 );
 			break;
 	}
 
